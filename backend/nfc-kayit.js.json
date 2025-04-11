@@ -1,0 +1,40 @@
+
+const express = require('express');
+const cors = require('cors');
+const mssql = require('mssql');
+const kullaniciRoutes = require('./routes/kullaniciRoutes'); // Route'ları içeri aktar
+
+const app = express();
+app.use(cors());
+app.use(express.json()); // JSON verisi almak için
+
+// MSSQL bağlantı konfigürasyonu
+const config = {
+    user: 'your_username',
+    password: 'your_password',
+    server: 'your_server',
+    database: 'your_database',
+    options: {
+        encrypt: true,
+        trustServerCertificate: true
+    }
+};
+
+// MSSQL bağlantısı
+mssql.connect(config)
+    .then(pool => {
+        console.log('Database connected');
+
+        // API route'larını kullan
+        app.use('/api/kullanici', kullaniciRoutes(pool)); // 'kullaniciRoutes' API'yi bağla
+
+    })
+    .catch(err => {
+        console.error('Database connection failed:', err);
+        process.exit(1);
+    });
+
+// Sunucuyu başlat
+app.listen(5000, () => {
+    console.log('Server running on http://localhost:5000');
+});
