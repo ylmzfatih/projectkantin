@@ -11,8 +11,8 @@ function App() {
 
   useEffect(() => {
     const fetchKartId = async () => {
-      try {                               //192.168.207.56
-        const response = await axios.get('http://192.168.207.56:3000/api/getKartId');
+      try {                               
+        const response = await axios.get('http://192.168.123.195:3000/api/getKartId');
         if (response.data.kartId) {
           setKartId(response.data.kartId);  
         }
@@ -33,7 +33,7 @@ function App() {
     }
 
     try {
-      const response = await axios.post('http://192.168.207.56:3000/api/kullanici/kayit', {
+      const response = await axios.post('http://192.168.123.195:3000/api/kullanici/kayit', {
         KartId: kartId,
         OgrenciNo: ogrenciNo,
         Ad: ad,
@@ -51,6 +51,8 @@ function App() {
       alert(`Bir hata oluştu: ${error.response ? error.response.data.message : error.message}`);
     }
   };
+
+  
 
   return (
     <div
@@ -83,7 +85,7 @@ function App() {
       border: "1px solid #ddd",
       borderRadius: "8px",
       backgroundColor: "white",
-      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",  // Hafif gölge efekti
+      boxShadow: "0 2px 10px rgba(153, 58, 58, 0.1)",  // Hafif gölge efekti
     }}
   >
     <input type="hidden" value={kartId || ""} readOnly />
